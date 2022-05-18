@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_todo_app/model/todo.dart';
 import 'package:riverpod_todo_app/view_model/provider.dart';
 
-/// 保存する際のキーを指定
+/// キー指定
 final addTodoKey = UniqueKey();
 final activeFilterKey = UniqueKey();
 final completedFilterKey = UniqueKey();
@@ -192,13 +192,7 @@ class Title extends StatelessWidget {
   }
 }
 
-/// A provider which exposes the [Todo] displayed by a [TodoItem].
-///
-/// By retrieving the [Todo] through a provider instead of through its
-/// constructor, this allows [TodoItem] to be instantiated using the `const` keyword.
-///
-/// This ensures that when we add/remove/edit todos, only what the
-/// impacted widgets rebuilds, instead of the entire list of items.
+// 終わったtodoの管理
 final _currentTodo = Provider<Todo>((ref) => throw UnimplementedError());
 
 class TodoItem extends HookConsumerWidget {
@@ -222,7 +216,6 @@ class TodoItem extends HookConsumerWidget {
           if (focused) {
             textEditingController.text = todo.description;
           } else {
-            // Commit changes only when the textfield is unfocused, for performance
             ref
                 .read(todoListProvider.notifier)
                 .edit(id: todo.id, description: textEditingController.text);
